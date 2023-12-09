@@ -9,7 +9,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -17,34 +16,7 @@ import logo from "../../assets/logo.svg";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-
-const tabLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "The revolution", href: "/revolution" },
-  { label: "About us", href: "/about" },
-  { label: "Contact us", href: "/contact" },
-];
-
-const menuLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Custom Software Development", href: "/customsoftware" },
-  { label: "Mobile App Development", href: "/mobileapps" },
-  { label: "Website Development", href: "/websites" },
-];
-
-function ElevationScroll(props) {
-  const { children } = props;
-
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-  });
-
-  return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
-  });
-}
+import { tabLinks, menuLinks, ElevationScroll } from "../helpers/index";
 
 const useStyles = makeStyles((theme) => ({
   toolBarMargin: {
@@ -128,11 +100,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
-  const [value, setValue] = useState(0);
+const Header = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const classes = useStyles();
@@ -172,7 +142,7 @@ const Header = () => {
 
   useEffect(() => {
     if (indexTab === -1 && value !== -1) {
-      setValue(-1);
+      setValue(1000);
     } else if (indexTab !== -1 && value !== indexTab) {
       setValue(indexTab);
     }
