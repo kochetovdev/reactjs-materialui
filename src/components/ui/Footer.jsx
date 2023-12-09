@@ -1,13 +1,15 @@
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Link } from "react-router-dom";
 import footerAdornment from "../../assets/Footer adornment.svg";
-import { menuLinks } from "../helpers";
-import Hidden from "@material-ui/core/Hidden";
-import facebook from "../../assets/facebook.svg";
-import twitter from "../../assets/twitter.svg";
-import instagram from "../../assets/instagram.svg";
+import {
+  fourthFooterLinks,
+  imgFooterLinks,
+  menuLinks,
+  thirdFooterLinks,
+} from "../helpers";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -105,94 +107,40 @@ const Footer = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
           </Grid>
           <Grid item className={classes.gridItem}>
             <Grid container direction="column" spacing={2}>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/revolution"
-                onClick={() => {
-                  setValue(2);
-                  setSelectedIndex(2);
-                }}
-              >
-                The Revolution
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/vision"
-                onClick={() => {
-                  setValue(2);
-                  setSelectedIndex(2);
-                }}
-              >
-                Vision
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/technology"
-                onClick={() => {
-                  setValue(2);
-                  setSelectedIndex(2);
-                }}
-              >
-                Technology
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/proccess"
-                onClick={() => {
-                  setValue(2);
-                  setSelectedIndex(2);
-                }}
-              >
-                Proccess
-              </Grid>
+              {thirdFooterLinks.map(({ label, href }, index) => (
+                <Grid
+                  item
+                  key={href}
+                  className={classes.link}
+                  component={Link}
+                  to={href}
+                  onClick={() => {
+                    setValue(2);
+                    setSelectedIndex(index);
+                  }}
+                >
+                  {label}
+                </Grid>
+              ))}
             </Grid>
           </Grid>
           <Grid item className={classes.gridItem}>
             <Grid container direction="column" spacing={2}>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/about"
-                onClick={() => {
-                  setValue(3);
-                  setSelectedIndex(3);
-                }}
-              >
-                About us
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/history"
-                onClick={() => {
-                  setValue(3);
-                  setSelectedIndex(3);
-                }}
-              >
-                History
-              </Grid>
-              <Grid
-                item
-                className={classes.link}
-                component={Link}
-                to="/team"
-                onClick={() => {
-                  setValue(3);
-                  setSelectedIndex(3);
-                }}
-              >
-                Team
-              </Grid>
+              {fourthFooterLinks.map(({ label, href }, index) => (
+                <Grid
+                  item
+                  key={href}
+                  className={classes.link}
+                  component={Link}
+                  to={href}
+                  onClick={() => {
+                    setValue(3);
+                    setSelectedIndex(index);
+                  }}
+                >
+                  {label}
+                </Grid>
+              ))}
             </Grid>
           </Grid>
           <Grid item className={classes.gridItem}>
@@ -224,33 +172,17 @@ const Footer = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
         spacing={2}
         className={classes.socialContainer}
       >
-        <Grid
-          item
-          component={"a"}
-          href="http://www.facebook.com"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img src={facebook} alt="facebook logo" className={classes.icon} />
-        </Grid>
-        <Grid
-          item
-          component={"a"}
-          href="http://www.twitter.com"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img src={twitter} alt="twitter logo" className={classes.icon} />
-        </Grid>
-        <Grid
-          item
-          component={"a"}
-          href="http://www.instagram.com"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <img src={instagram} alt="instagram logo" className={classes.icon} />
-        </Grid>
+        {imgFooterLinks.map(({ alt, href, src }) => (
+          <Grid
+            item
+            component={"a"}
+            href={href}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img src={src} alt={alt} className={classes.icon} />
+          </Grid>
+        ))}
       </Grid>
     </footer>
   );

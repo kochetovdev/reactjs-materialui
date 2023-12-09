@@ -1,6 +1,9 @@
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
@@ -13,10 +16,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { tabLinks, menuLinks, ElevationScroll } from "../helpers/index";
+import { ElevationScroll, menuLinks, tabLinks } from "../helpers/index";
 
 const useStyles = makeStyles((theme) => ({
   toolBarMargin: {
