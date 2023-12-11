@@ -174,6 +174,7 @@ const Footer = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
       >
         {imgFooterLinks.map(({ alt, href, src }) => (
           <Grid
+            key={href}
             item
             component={"a"}
             href={href}
