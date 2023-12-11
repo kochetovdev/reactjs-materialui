@@ -6,6 +6,8 @@ import Footer from "./ui/Footer";
 import { useState } from "react";
 import LandingPage from "./LandingPage";
 import Services from "./Services";
+import CustomSoftware from "./CustomSoftware";
+import MobileApps from "./MobileApps";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -35,8 +37,24 @@ function App() {
             <Services setValue={setValue} setSelectedIndex={setSelectedIndex} />
           }
         />
-        <Route path="/customsoftware" element={<div>customsoftware</div>} />
-        <Route path="/mobileapps" element={<div>mobileapps</div>} />
+        <Route
+          path="/customsoftware"
+          element={
+            <CustomSoftware
+              setValue={setValue}
+              setSelectedIndex={setSelectedIndex}
+            />
+          }
+        />
+        <Route
+          path="/mobileapps"
+          element={
+            <MobileApps
+              setValue={setValue}
+              setSelectedIndex={setSelectedIndex}
+            />
+          }
+        />
         <Route path="/websites" element={<div>websites</div>} />
         <Route path="/revolution" element={<div>revolution</div>} />
         <Route path="/about" element={<div>about</div>} />
