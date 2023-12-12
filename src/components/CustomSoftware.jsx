@@ -22,24 +22,24 @@ import uxAnimation from "../animations/uxAnimation/data";
 
 import CallToAction from "./ui/CallToAction";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   heading: {
-    maxWidth: "40em"
+    maxWidth: "40em",
   },
   arrowContainer: {
-    marginTop: "0.5em"
+    marginTop: "0.5em",
   },
   rowContainer: {
     paddingLeft: "5em",
     paddingRight: "5em",
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "1.5em",
-      paddingRight: "1.5em"
-    }
+      paddingRight: "1.5em",
+    },
   },
   itemContainer: {
-    maxWidth: "40em"
-  }
+    maxWidth: "40em",
+  },
 }));
 
 export default function CustomSoftware(props) {
@@ -54,8 +54,8 @@ export default function CustomSoftware(props) {
     autoplay: false,
     animationData: documentsAnimation,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   const scaleOptions = {
@@ -63,8 +63,8 @@ export default function CustomSoftware(props) {
     autoplay: false,
     animationData: scaleAnimation,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   const automationOptions = {
@@ -72,8 +72,8 @@ export default function CustomSoftware(props) {
     autoplay: false,
     animationData: automationAnimation,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   const uxOptions = {
@@ -81,8 +81,8 @@ export default function CustomSoftware(props) {
     autoplay: false,
     animationData: uxAnimation,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
@@ -205,7 +205,7 @@ export default function CustomSoftware(props) {
           style={{
             maxWidth: "40em",
             marginTop: matchesSM ? "10em" : 0,
-            marginBottom: matchesSM ? "10em" : 0
+            marginBottom: matchesSM ? "10em" : 0,
           }}
         >
           <Grid item>
@@ -238,6 +238,7 @@ export default function CustomSoftware(props) {
         direction={matchesMD ? "column" : "row"}
         justifyContent="space-between"
         className={classes.rowContainer}
+        style={{ display: matchesMD ? "grid" : undefined }}
       >
         <Grid
           item
@@ -359,8 +360,10 @@ export default function CustomSoftware(props) {
         container
         alignItems={matchesMD ? "center" : undefined}
         direction={matchesMD ? "column" : "row"}
-        justifyContent="space-between"
-        style={{ marginBottom: "20em" }}
+        justifyContent={matchesMD ? "center" : "space-between"}
+        style={{
+          display: matchesMD ? "grid" : undefined,
+        }}
         className={classes.rowContainer}
       >
         <Grid
@@ -460,7 +463,7 @@ export default function CustomSoftware(props) {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid item style={{ marginTop: "20em" }}>
         <CallToAction setValue={props.setValue} />
       </Grid>
     </Grid>

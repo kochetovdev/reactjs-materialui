@@ -18,21 +18,21 @@ import integrationAnimation from "../animations/integrationAnimation/data.json";
 
 import CallToAction from "./ui/CallToAction";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   heading: {
-    maxWidth: "40em"
+    maxWidth: "40em",
   },
   arrowContainer: {
-    marginTop: "0.5em"
+    marginTop: "0.5em",
   },
   rowContainer: {
     paddingLeft: "5em",
     paddingRight: "5em",
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "1.5em",
-      paddingRight: "1.5em"
-    }
-  }
+      paddingRight: "1.5em",
+    },
+  },
 }));
 
 export default function MobileApps(props) {
@@ -47,8 +47,8 @@ export default function MobileApps(props) {
     autoplay: false,
     animationData: integrationAnimation,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
@@ -171,7 +171,10 @@ export default function MobileApps(props) {
           <Lottie
             options={defaultOptions}
             isStopped={true}
-            style={{ maxWidth: "20em" }}
+            style={{
+              maxWidth: matchesMD ? "15em" : "20em",
+              height: matchesMD ? "20em" : undefined,
+            }}
           />
         </Grid>
         <Grid item container direction="column" md>
@@ -209,7 +212,10 @@ export default function MobileApps(props) {
         container
         direction={matchesMD ? "column" : "row"}
         className={classes.rowContainer}
-        style={{ marginBottom: "15em" }}
+        style={{
+          marginBottom: "15em",
+          display: matchesMD ? "grid" : undefined,
+        }}
       >
         <Grid item container direction="column" alignItems="center" md>
           <Grid item>
@@ -229,7 +235,7 @@ export default function MobileApps(props) {
           md
           style={{
             marginTop: matchesMD ? "10em" : 0,
-            marginBottom: matchesMD ? "10em" : 0
+            marginBottom: matchesMD ? "10em" : 0,
           }}
         >
           <Grid item>

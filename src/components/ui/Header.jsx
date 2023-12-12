@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     height: "8em",
+    textTransform: "none",
     [theme.breakpoints.down("md")]: {
       height: "7em",
     },
@@ -304,6 +305,7 @@ const Header = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
               component={Link}
               to="/"
               className={classes.logoContainer}
+              style={{ textDecoration: "none" }}
             >
               <img src={logo} alt="company logo" className={classes.logo} />
             </Button>

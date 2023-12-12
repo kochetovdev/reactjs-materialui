@@ -230,7 +230,12 @@ export default function Revolution(props) {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item container justifyContent={matchesMD ? "center" : "flex-end"} lg>
+        <Grid
+          item
+          container
+          justifyContent={matchesMD ? "center" : "flex-end"}
+          lg
+        >
           <Lottie
             options={defaultOptions}
             isStopped={true}
@@ -446,7 +451,12 @@ export default function Revolution(props) {
           </Grid>
         </Grid>
         <Grid item lg style={{ alignSelf: "center" }}>
-          <img src={review} alt="magnifying glass" width="100%" />
+          <img
+            src={review}
+            alt="magnifying glass"
+            width="100%"
+            style={{ maxWidth: "40em" }}
+          />
         </Grid>
       </Grid>
       <Grid
@@ -556,7 +566,12 @@ export default function Revolution(props) {
           </Grid>
         </Grid>
         <Grid item lg style={{ alignSelf: "center" }}>
-          <img src={review} alt="magnifying glass" width="100%" />
+          <img
+            src={review}
+            alt="magnifying glass"
+            width="100%"
+            style={{ maxWidth: "40em" }}
+          />
         </Grid>
       </Grid>
       <Grid
