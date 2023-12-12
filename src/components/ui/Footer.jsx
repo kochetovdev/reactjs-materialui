@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Footer = ({ value, setValue, selectedIndex, setSelectedIndex }) => {
+const Footer = ({ setValue, setSelectedIndex }) => {
   const classes = useStyles();
 
   return (
