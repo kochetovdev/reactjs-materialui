@@ -3,7 +3,7 @@ import Hidden from "@material-ui/core/Hidden";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Link } from "react-router-dom";
-import footerAdornment from "../../assets/Footer adornment.svg";
+import footerAdornment from "../../assets/Footer Adornment.svg";
 import {
   fourthFooterLinks,
   imgFooterLinks,
