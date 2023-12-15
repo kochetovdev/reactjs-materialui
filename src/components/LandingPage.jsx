@@ -19,15 +19,15 @@ import websitesIcon from "../assets/websiteIcon.svg";
 import revolutionBackground from "../assets/repeatingBackground.svg";
 import infoBackground from "../assets/infoBackground.svg";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   animation: {
     maxWidth: "50em",
     minWidth: "21em",
     marginTop: "2em",
     marginLeft: "10%",
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "30em"
-    }
+      maxWidth: "30em",
+    },
   },
   estimateButton: {
     ...theme.typography.estimate,
@@ -37,17 +37,17 @@ const useStyles = makeStyles(theme => ({
     width: 145,
     marginRight: 40,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.light
-    }
+      backgroundColor: theme.palette.secondary.light,
+    },
   },
   buttonContainer: {
-    marginTop: "1em"
+    marginTop: "1em",
   },
   learnButtonHero: {
     ...theme.typography.learnButton,
     fontSize: "0.9rem",
     height: 45,
-    width: 145
+    width: 145,
   },
   learnButton: {
     ...theme.typography.learnButton,
@@ -55,43 +55,43 @@ const useStyles = makeStyles(theme => ({
     height: 35,
     padding: 5,
     [theme.breakpoints.down("sm")]: {
-      marginBottom: "2em"
-    }
+      marginBottom: "2em",
+    },
   },
   mainContainer: {
     marginTop: "5em",
     [theme.breakpoints.down("md")]: {
-      marginTop: "3em"
+      marginTop: "3em",
     },
     [theme.breakpoints.down("xs")]: {
-      marginTop: "2em"
-    }
+      marginTop: "2em",
+    },
   },
   heroTextContainer: {
     minWidth: "21.5em",
     marginLeft: "1em",
     [theme.breakpoints.down("xs")]: {
-      marginLeft: 0
-    }
+      marginLeft: 0,
+    },
   },
   specialText: {
     fontFamily: "Pacifico",
-    color: theme.palette.common.orange
+    color: theme.palette.common.orange,
   },
   subtitle: {
-    marginBottom: "1em"
+    marginBottom: "1em",
   },
   icon: {
     marginLeft: "2em",
     [theme.breakpoints.down("xs")]: {
-      marginLeft: 0
-    }
+      marginLeft: 0,
+    },
   },
   serviceContainer: {
     marginTop: "12em",
     [theme.breakpoints.down("sm")]: {
-      padding: 25
-    }
+      padding: 25,
+    },
   },
   revolutionBackground: {
     backgroundImage: `url(${revolutionBackground})`,
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   revolutionCard: {
     position: "absolute",
@@ -112,8 +112,8 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: 0,
       paddingRight: 0,
       borderRadius: 0,
-      width: "100%"
-    }
+      width: "100%",
+    },
   },
   infoBackground: {
     backgroundImage: `url(${infoBackground})`,
@@ -121,11 +121,11 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "100%",
-    width: "100%"
-  }
+    width: "100%",
+  },
 }));
 
-export default function LandingPage(props) {
+export default function LandingPage({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -136,8 +136,8 @@ export default function LandingPage(props) {
     autoplay: false,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
@@ -145,7 +145,12 @@ export default function LandingPage(props) {
       <Grid item>
         {" "}
         {/*-----Hero Block-----*/}
-        <Grid container justifyContent="flex-end" alignItems="center" direction="row">
+        <Grid
+          container
+          justifyContent="flex-end"
+          alignItems="center"
+          direction="row"
+        >
           <Grid sm item className={classes.heroTextContainer}>
             <Typography variant="h2" align="center">
               Bringing West Coast Technology
@@ -163,7 +168,7 @@ export default function LandingPage(props) {
                   to="/estimate"
                   className={classes.estimateButton}
                   variant="contained"
-                  onClick={() => props.setValue(5)}
+                  onClick={setValue(5)}
                 >
                   Free Estimate
                 </Button>
@@ -174,7 +179,7 @@ export default function LandingPage(props) {
                   to="/revolution"
                   className={classes.learnButtonHero}
                   variant="outlined"
-                  onClick={() => props.setValue(2)}
+                  onClick={setValue(2)}
                 >
                   <span style={{ marginRight: 10 }}>Learn More</span>
                   <ButtonArrow
@@ -204,7 +209,7 @@ export default function LandingPage(props) {
             item
             style={{
               marginLeft: matchesSM ? 0 : "5em",
-              textAlign: matchesSM ? "center" : undefined
+              textAlign: matchesSM ? "center" : undefined,
             }}
           >
             <Typography variant="h4">Custom Software Development</Typography>
@@ -220,10 +225,7 @@ export default function LandingPage(props) {
               to="/customsoftware"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(1);
-              }}
+              onClick={setSelectedIndex(1, 1)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow
@@ -254,7 +256,7 @@ export default function LandingPage(props) {
           <Grid
             item
             style={{
-              textAlign: matchesSM ? "center" : undefined
+              textAlign: matchesSM ? "center" : undefined,
             }}
           >
             <Typography variant="h4">iOS/Android App Development</Typography>
@@ -270,10 +272,7 @@ export default function LandingPage(props) {
               to="/mobileapps"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(2);
-              }}
+              onClick={setSelectedIndex(1, 2)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow
@@ -305,7 +304,7 @@ export default function LandingPage(props) {
             item
             style={{
               marginLeft: matchesSM ? 0 : "5em",
-              textAlign: matchesSM ? "center" : undefined
+              textAlign: matchesSM ? "center" : undefined,
             }}
           >
             <Typography variant="h4">Website Development</Typography>
@@ -320,10 +319,7 @@ export default function LandingPage(props) {
               to="/websites"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(3);
-              }}
+              onClick={setSelectedIndex(1, 3)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow
@@ -372,7 +368,7 @@ export default function LandingPage(props) {
                     to="/revolution"
                     className={classes.learnButtonHero}
                     variant="outlined"
-                    onClick={() => props.setValue(2)}
+                    onClick={setValue(2)}
                   >
                     <span style={{ marginRight: 10 }}>Learn More</span>
                     <ButtonArrow
@@ -401,7 +397,7 @@ export default function LandingPage(props) {
             item
             container
             style={{
-              textAlign: matchesXS ? "center" : "inherit"
+              textAlign: matchesXS ? "center" : "inherit",
             }}
             direction={matchesXS ? "column" : "row"}
           >
@@ -426,7 +422,7 @@ export default function LandingPage(props) {
                     variant="outlined"
                     style={{ color: "white", borderColor: "white" }}
                     className={classes.learnButton}
-                    onClick={() => props.setValue(3)}
+                    onClick={setValue(3)}
                   >
                     <span style={{ marginRight: 10 }}>Learn More</span>
                     <ButtonArrow width={10} height={10} fill="white" />
@@ -439,7 +435,7 @@ export default function LandingPage(props) {
               sm
               style={{
                 marginRight: matchesXS ? 0 : matchesSM ? "2em" : "5em",
-                textAlign: matchesXS ? "center" : "right"
+                textAlign: matchesXS ? "center" : "right",
               }}
             >
               <Grid container direction="column">
@@ -459,7 +455,7 @@ export default function LandingPage(props) {
                     variant="outlined"
                     style={{ color: "white", borderColor: "white" }}
                     className={classes.learnButton}
-                    onClick={() => props.setValue(4)}
+                    onClick={setValue(4)}
                   >
                     <span style={{ marginRight: 10 }}>Learn More</span>
                     <ButtonArrow width={10} height={10} fill="white" />
@@ -472,7 +468,7 @@ export default function LandingPage(props) {
       </Grid>
       <Grid item>
         {/*-----Call To Action Block-----*/}
-        <CallToAction setValue={props.setValue} />
+        <CallToAction setValue={setValue} />
       </Grid>
     </Grid>
   );

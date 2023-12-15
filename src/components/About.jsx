@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function About(props) {
+export default function About({ setValue }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -260,7 +260,7 @@ export default function About(props) {
         </Grid>
       </Grid>
       <Grid item>
-        <CallToAction setValue={props.setValue} />
+        <CallToAction setValue={setValue} />
       </Grid>
     </Grid>
   );

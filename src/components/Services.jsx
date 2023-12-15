@@ -11,25 +11,25 @@ import customSoftwareIcon from "../assets/Custom Software Icon.svg";
 import mobileAppsIcon from "../assets/mobileIcon.svg";
 import websitesIcon from "../assets/websiteIcon.svg";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   specialText: {
     fontFamily: "Pacifico",
-    color: theme.palette.common.orange
+    color: theme.palette.common.orange,
   },
   subtitle: {
-    marginBottom: "1em"
+    marginBottom: "1em",
   },
   icon: {
     marginLeft: "2em",
     [theme.breakpoints.down("xs")]: {
-      marginLeft: 0
-    }
+      marginLeft: 0,
+    },
   },
   serviceContainer: {
     marginTop: "10em",
     [theme.breakpoints.down("sm")]: {
-      padding: 25
-    }
+      padding: 25,
+    },
   },
   learnButton: {
     ...theme.typography.learnButton,
@@ -37,12 +37,12 @@ const useStyles = makeStyles(theme => ({
     height: 35,
     padding: 5,
     [theme.breakpoints.down("sm")]: {
-      marginBottom: "2em"
-    }
-  }
+      marginBottom: "2em",
+    },
+  },
 }));
 
-export default function Services(props) {
+export default function Services({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -53,7 +53,7 @@ export default function Services(props) {
         item
         style={{
           marginLeft: matchesSM ? 0 : "5em",
-          marginTop: matchesSM ? "1em" : "2em"
+          marginTop: matchesSM ? "1em" : "2em",
         }}
       >
         <Typography
@@ -78,7 +78,7 @@ export default function Services(props) {
             item
             style={{
               textAlign: matchesSM ? "center" : undefined,
-              width: matchesSM ? undefined : "35em"
+              width: matchesSM ? undefined : "35em",
             }}
           >
             <Typography variant="h4">iOS/Android App Development</Typography>
@@ -94,10 +94,7 @@ export default function Services(props) {
               to="/mobileapps"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(2);
-              }}
+              onClick={setSelectedIndex(1, 2)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow
@@ -130,7 +127,7 @@ export default function Services(props) {
             item
             style={{
               marginLeft: matchesSM ? 0 : "5em",
-              textAlign: matchesSM ? "center" : undefined
+              textAlign: matchesSM ? "center" : undefined,
             }}
           >
             <Typography variant="h4">Custom Software Development</Typography>
@@ -146,10 +143,7 @@ export default function Services(props) {
               to="/customsoftware"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(1);
-              }}
+              onClick={setSelectedIndex(1, 1)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow
@@ -183,7 +177,7 @@ export default function Services(props) {
             item
             style={{
               textAlign: matchesSM ? "center" : undefined,
-              width: matchesSM ? undefined : "35em"
+              width: matchesSM ? undefined : "35em",
             }}
           >
             <Typography variant="h4">Website Development</Typography>
@@ -198,10 +192,7 @@ export default function Services(props) {
               to="/websites"
               variant="outlined"
               className={classes.learnButton}
-              onClick={() => {
-                props.setValue(1);
-                props.setSelectedIndex(3);
-              }}
+              onClick={setSelectedIndex(1, 3)}
             >
               <span style={{ marginRight: 10 }}>Learn More</span>
               <ButtonArrow

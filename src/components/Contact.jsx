@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 import Snackbar from "@material-ui/core/Snackbar";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import axios from "axios";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import ButtonArrow from "./ui/ButtonArrow";
 
 import background from "../assets/background.jpg";
+import emailIcon from "../assets/email.svg";
 import mobileBackground from "../assets/mobileBackground.jpg";
 import phoneIcon from "../assets/phone.svg";
-import emailIcon from "../assets/email.svg";
 import airplane from "../assets/send.svg";
+import { checkValidEmail, checkValidPhone } from "./helpers";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Contact(props) {
+export default function Contact({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -104,44 +105,47 @@ export default function Contact(props) {
   const [alert, setAlert] = useState({ open: false, color: "" });
   const [alertMessage, setAlertMesssage] = useState("");
 
+  const disabledCondition =
+    name.length === 0 ||
+    message.length === 0 ||
+    phoneHelper.length !== 0 ||
+    emailHelper.length !== 0;
+
+  const paddingValues = {
+    paddingTop: matchesXS ? "1em" : "5em",
+    paddingBottom: matchesXS ? "1em" : "5em",
+    paddingLeft: matchesXS ? 0 : matchesSM ? 0 : matchesMD ? "15em" : "25em",
+    paddingRight: matchesXS ? 0 : matchesSM ? 0 : matchesMD ? "15em" : "25em",
+  };
+
   const onChange = (event) => {
     let valid;
 
-    switch (event.target.id) {
-      case "email":
-        setEmail(event.target.value);
-        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-          event.target.value
-        );
+    const { id, value } = event.target;
 
-        if (!valid) {
-          setEmailHelper("Invalid email");
-        } else {
-          setEmailHelper("");
-        }
+    switch (id) {
+      case "email":
+        setEmail(value);
+        valid = checkValidEmail(value);
+        valid ? setEmailHelper("") : setEmailHelper("Invalid email");
+
         break;
       case "phone":
-        setPhone(event.target.value);
-        valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
-          event.target.value
-        );
+        setPhone(value);
+        valid = checkValidPhone(value);
+        valid ? setPhoneHelper("") : setPhoneHelper("Invalid phone");
 
-        if (!valid) {
-          setPhoneHelper("Invalid phone");
-        } else {
-          setPhoneHelper("");
-        }
         break;
       default:
         break;
     }
   };
 
-  const onConfirm = () => {
-    setLoading(true);
+  const onConfirm = async () => {
+    try {
+      setLoading(true);
 
-    axios
-      .get(
+      await axios.get(
         "https://us-central1-material-ui-course.cloudfunctions.net/sendMail",
         {
           params: {
@@ -151,23 +155,22 @@ export default function Contact(props) {
             message: message,
           },
         }
-      )
-      .then((res) => {
-        setLoading(false);
-        setOpen(false);
-        setName("");
-        setEmail("");
-        setPhone("");
-        setMessage("");
-        setAlert({ open: true, color: "#4BB543" });
-        setAlertMesssage("Message sent successfully!");
-      })
-      .catch((err) => {
-        setLoading(false);
-        setAlert({ open: true, color: "#FF3232" });
-        setAlertMesssage("Something went wrong! Please try again.");
-        console.error(err);
-      });
+      );
+      setOpen(false);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+      setAlert({ open: true, color: "#4BB543" });
+      setAlertMesssage("Message sent successfully!");
+    } catch (error) {
+      setLoading(false);
+      setAlert({ open: true, color: "#FF3232" });
+      setAlertMesssage("Something went wrong! Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const buttonContents = (
@@ -306,12 +309,7 @@ export default function Contact(props) {
               style={{ marginTop: "2em" }}
             >
               <Button
-                disabled={
-                  name.length === 0 ||
-                  message.length === 0 ||
-                  phoneHelper.length !== 0 ||
-                  emailHelper.length !== 0
-                }
+                disabled={disabledCondition}
                 variant="contained"
                 className={classes.sendButton}
                 onClick={() => setOpen(true)}
@@ -329,22 +327,7 @@ export default function Contact(props) {
         onClose={() => setOpen(false)}
         PaperProps={{
           style: {
-            paddingTop: matchesXS ? "1em" : "5em",
-            paddingBottom: matchesXS ? "1em" : "5em",
-            paddingLeft: matchesXS
-              ? 0
-              : matchesSM
-              ? 0
-              : matchesMD
-              ? "15em"
-              : "25em",
-            paddingRight: matchesXS
-              ? 0
-              : matchesSM
-              ? 0
-              : matchesMD
-              ? "15em"
-              : "25em",
+            ...paddingValues,
           },
         }}
       >
@@ -416,12 +399,7 @@ export default function Contact(props) {
             </Grid>
             <Grid item>
               <Button
-                disabled={
-                  name.length === 0 ||
-                  message.length === 0 ||
-                  phoneHelper.length !== 0 ||
-                  emailHelper.length !== 0
-                }
+                disabled={disabledCondition}
                 variant="contained"
                 className={classes.sendButton}
                 onClick={onConfirm}
@@ -485,7 +463,7 @@ export default function Contact(props) {
                   to="/revolution"
                   variant="outlined"
                   className={classes.learnButton}
-                  onClick={() => props.setValue(2)}
+                  onClick={setValue(2)}
                 >
                   <span style={{ marginRight: 5 }}>Learn More</span>
                   <ButtonArrow
@@ -504,7 +482,7 @@ export default function Contact(props) {
             to="/estimate"
             variant="contained"
             className={classes.estimateButton}
-            onClick={() => props.setValue(5)}
+            onClick={setValue(5)}
           >
             Free Estimate
           </Button>

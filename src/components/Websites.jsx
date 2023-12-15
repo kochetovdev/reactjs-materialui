@@ -16,27 +16,27 @@ import ecommerce from "../assets/ecommerce.svg";
 
 import CallToAction from "./ui/CallToAction";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   heading: {
-    maxWidth: "40em"
+    maxWidth: "40em",
   },
   arrowContainer: {
-    marginTop: "0.5em"
+    marginTop: "0.5em",
   },
   rowContainer: {
     paddingLeft: "5em",
     paddingRight: "5em",
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "1.5em",
-      paddingRight: "1.5em"
-    }
+      paddingRight: "1.5em",
+    },
   },
   paragraphContainer: {
-    maxWidth: "30em"
-  }
+    maxWidth: "30em",
+  },
 }));
 
-export default function Websites(props) {
+export default function Websites({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -63,7 +63,7 @@ export default function Websites(props) {
               style={{ backgroundColor: "transparent" }}
               component={Link}
               to="/mobileapps"
-              onClick={() => props.setSelectedIndex(2)}
+              onClick={setSelectedIndex(2)}
             >
               <img
                 src={backArrow}
@@ -105,7 +105,7 @@ export default function Websites(props) {
               style={{ backgroundColor: "transparent" }}
               component={Link}
               to="/services"
-              onClick={() => props.setSelectedIndex(0)}
+              onClick={setSelectedIndex(0)}
             >
               <img src={forwardArrow} alt="Forward to Services Page" />
             </IconButton>
@@ -279,7 +279,7 @@ export default function Websites(props) {
         </Grid>
       </Grid>
       <Grid item>
-        <CallToAction setValue={props.setValue} />
+        <CallToAction setValue={setValue} />
       </Grid>
     </Grid>
   );

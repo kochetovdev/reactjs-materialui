@@ -16,7 +16,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import React, { Fragment, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
-import { ElevationScroll, menuLinks, tabLinks } from "../helpers/index";
+import { ElevationScroll } from "../helpers/index";
+import { menuLinks, tabLinks } from "../helpers/constants";
 
 const useStyles = makeStyles((theme) => ({
   toolBarMargin: {

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomSoftware(props) {
+export default function CustomSoftware({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -105,7 +105,7 @@ export default function CustomSoftware(props) {
               style={{ backgroundColor: "transparent" }}
               component={Link}
               to="/services"
-              onClick={() => props.setSelectedIndex(0)}
+              onClick={setSelectedIndex(0, 0)}
             >
               <img src={backArrow} alt="Back to Services Page" />
             </IconButton>
@@ -163,7 +163,7 @@ export default function CustomSoftware(props) {
               style={{ backgroundColor: "transparent" }}
               component={Link}
               to="/mobileapps"
-              onClick={() => props.setSelectedIndex(2)}
+              onClick={setSelectedIndex(2, 1)}
             >
               <img
                 src={forwardArrow}
@@ -464,7 +464,7 @@ export default function CustomSoftware(props) {
         </Grid>
       </Grid>
       <Grid item style={{ marginTop: "20em" }}>
-        <CallToAction setValue={props.setValue} />
+        <CallToAction setValue={setValue} />
       </Grid>
     </Grid>
   );

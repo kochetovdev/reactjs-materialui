@@ -9,7 +9,7 @@ import {
   imgFooterLinks,
   menuLinks,
   thirdFooterLinks,
-} from "../helpers";
+} from "../helpers/constants";
 
 const useStyles = makeStyles((theme) => ({
   footer: {

@@ -10,6 +10,12 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [value, setValue] = useState(0);
 
+  const onSelectValue = (value) => () => setValue(value);
+  const onSelectValueIdx = (value, index) => () => {
+    setValue(value);
+    setSelectedIndex(index);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Header
@@ -25,17 +31,14 @@ function App() {
             path={path}
             element={
               <Component
-                setValue={setValue}
-                setSelectedIndex={setSelectedIndex}
+                setValue={onSelectValue}
+                setSelectedIndex={onSelectValueIdx}
               />
             }
           />
         ))}
       </Routes>
-      <Footer
-        setValue={setValue}
-        setSelectedIndex={setSelectedIndex}
-      />
+      <Footer setValue={setValue} setSelectedIndex={setSelectedIndex} />
     </ThemeProvider>
   );
 }

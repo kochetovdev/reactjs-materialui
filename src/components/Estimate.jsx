@@ -24,11 +24,12 @@ import backArrow from "../assets/backArrow.svg";
 import backArrowDisabled from "../assets/backArrowDisabled.svg";
 import forwardArrow from "../assets/forwardArrow.svg";
 import forwardArrowDisabled from "../assets/forwardArrowDisabled.svg";
+import { checkValidEmail, checkValidPhone } from "./helpers";
 import {
   defaultQuestions,
   softwareQuestions,
   websiteQuestions,
-} from "./helpers";
+} from "./helpers/constants";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -103,6 +104,14 @@ export default function Estimate() {
     },
   };
 
+  const clearFields = () => {
+    setPlatforms([]);
+    setFeatures([]);
+    setCustomFeatures("");
+    setUsers("");
+    setCategory("");
+  };
+
   const nextQuestion = () => {
     const newQuestions = cloneDeep(questions);
 
@@ -133,49 +142,31 @@ export default function Estimate() {
     const currentlyActive = questions.filter((question) => question.active);
     const activeId = currentlyActive[0].id;
 
-    if (activeId === 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return activeId === 1;
   };
 
   const forwardButtonDisabled = () => {
     const currentlyActive = questions.filter((question) => question.active);
     const activeId = currentlyActive[0].id;
 
-    if (activeId === questions[questions.length - 1].id) {
-      return true;
-    } else {
-      return false;
-    }
+    return activeId === questions[questions.length - 1].id;
   };
 
   const estimateDisabled = () => {
-    let disabled = true;
-
     const emptySelections = questions
       .map((question) => question.options.filter((option) => option.selected))
       .filter((question) => question.length === 0);
 
-    if (questions.length === 2) {
-      if (emptySelections.length === 1) {
-        return false;
-      }
-    } else if (questions.length === 1) {
-      return true;
-    } else {
-      if (
-        emptySelections.length < 3 &&
-        questions[questions.length - 1].options.filter(
-          (option) => option.selected
-        ).length > 0
-      ) {
-        return false;
-      }
+    const isOption =
+      questions[questions.length - 1].options.filter(
+        (option) => option.selected
+      ).length > 0;
+
+    if (questions.length === 2 || (emptySelections.length < 3 && isOption)) {
+      return false;
     }
 
-    return disabled;
+    return true;
   };
 
   const handleSelect = (id) => {
@@ -206,29 +197,17 @@ export default function Estimate() {
       case "Custom Software Development":
         setQuestions(softwareQuestions);
         setService(newSelected.title);
-        setPlatforms([]);
-        setFeatures([]);
-        setCustomFeatures("");
-        setUsers("");
-        setCategory("");
+        clearFields();
         break;
       case "iOS/Android App Development":
         setQuestions(softwareQuestions);
         setService(newSelected.title);
-        setPlatforms([]);
-        setFeatures([]);
-        setCustomFeatures("");
-        setUsers("");
-        setCategory("");
+        clearFields();
         break;
       case "Website Development":
         setQuestions(websiteQuestions);
         setService(newSelected.title);
-        setPlatforms([]);
-        setFeatures([]);
-        setCustomFeatures("");
-        setUsers("");
-        setCategory("");
+        clearFields();
         break;
       default:
         setQuestions(newQuestions);
@@ -239,30 +218,20 @@ export default function Estimate() {
   const onChange = (event) => {
     let valid;
 
-    switch (event.target.id) {
-      case "email":
-        setEmail(event.target.value);
-        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-          event.target.value
-        );
+    const { id, value } = event.target;
 
-        if (!valid) {
-          setEmailHelper("Invalid email");
-        } else {
-          setEmailHelper("");
-        }
+    switch (id) {
+      case "email":
+        setEmail(value);
+        valid = checkValidEmail(value);
+        valid ? setEmailHelper("") : setEmailHelper("Invalid email");
+
         break;
       case "phone":
-        setPhone(event.target.value);
-        valid = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
-          event.target.value
-        );
+        setPhone(value);
+        valid = checkValidPhone(value);
+        valid ? setPhoneHelper("") : setPhoneHelper("Invalid phone");
 
-        if (!valid) {
-          setPhoneHelper("Invalid phone");
-        } else {
-          setPhoneHelper("");
-        }
         break;
       default:
         break;
@@ -270,102 +239,94 @@ export default function Estimate() {
   };
 
   const getTotal = () => {
-    let cost = 0;
-
     const selections = questions
       .map((question) => question.options.filter((option) => option.selected))
-      .filter((question) => question.length > 0);
+      .filter((question) => question.length > 0)
+      .flat();
 
-    selections.map((options) => options.map((option) => (cost += option.cost)));
+    const cost = selections.reduce(
+      (accumulator, option) => accumulator + option.cost,
+      0
+    );
 
-    if (questions.length > 2) {
-      const userCost = questions
-        .filter(
-          (question) => question.title === "How many users do you expect?"
-        )
-        .map((question) =>
-          question.options.filter((option) => option.selected)
-        )[0][0];
+    if (questions.length <= 2) return;
 
-      setUsers(userCost.title);
+    const userCost = questions
+      .filter((question) => question.title === "How many users do you expect?")
+      .map((question) => question.options.find((option) => option.selected))[0];
 
-      cost -= userCost.cost;
-      cost *= userCost.cost;
-    }
+    setUsers(userCost.title);
 
-    setTotal(cost);
+    const adjustedCost = cost - userCost.cost;
+    const totalCost = adjustedCost * userCost.cost;
+
+    setTotal(totalCost);
   };
 
   const getPlatforms = () => {
-    if (questions.length > 2) {
-      let newPlatforms = [];
+    if (questions.length <= 2) return;
+    let newPlatforms = [];
 
-      questions
-        .filter(
-          (question) =>
-            question.title === "Which platforms do you need supported?"
-        )
-        .map((question) =>
-          question.options.filter((option) => option.selected)
-        )[0]
-        .map((option) => newPlatforms.push(option.title));
+    questions
+      .filter(
+        (question) =>
+          question.title === "Which platforms do you need supported?"
+      )
+      .map((question) =>
+        question.options.filter((option) => option.selected)
+      )[0]
+      .map((option) => newPlatforms.push(option.title));
 
-      setPlatforms(newPlatforms);
-    }
+    setPlatforms(newPlatforms);
   };
 
   const getFeatures = () => {
-    if (questions.length > 2) {
-      let newFeatures = [];
+    if (questions.length <= 2) return;
+    let newFeatures = [];
 
-      questions
-        .filter(
-          (question) =>
-            question.title === "Which features do you expect to use?"
-        )
-        .map((question) => question.options.filter((option) => option.selected))
-        .map((option) =>
-          option.map((newFeature) => newFeatures.push(newFeature.title))
-        );
+    questions
+      .filter(
+        (question) => question.title === "Which features do you expect to use?"
+      )
+      .map((question) => question.options.filter((option) => option.selected))
+      .map((option) =>
+        option.map((newFeature) => newFeatures.push(newFeature.title))
+      );
 
-      setFeatures(newFeatures);
-    }
+    setFeatures(newFeatures);
   };
 
   const getCustomFeatures = () => {
-    if (questions.length > 2) {
-      const newCustomFeatures = questions
-        .filter(
-          (question) =>
-            question.title ===
-            "What type of custom features do you expect to need?"
-        )
-        .map((question) =>
-          question.options.filter((option) => option.selected)
-        )[0][0].title;
+    if (questions.length <= 2) return;
+    const newCustomFeatures = questions
+      .filter(
+        (question) =>
+          question.title ===
+          "What type of custom features do you expect to need?"
+      )
+      .map((question) =>
+        question.options.filter((option) => option.selected)
+      )[0][0].title;
 
-      setCustomFeatures(newCustomFeatures);
-    }
+    setCustomFeatures(newCustomFeatures);
   };
 
   const getCategory = () => {
-    if (questions.length === 2) {
-      const newCategory = questions
-        .filter(
-          (question) =>
-            question.title === "Which type of website are you wanting?"
-        )[0]
-        .options.filter((option) => option.selected)[0].title;
+    if (questions.length !== 2) return;
+    const newCategory = questions
+      .filter(
+        (question) =>
+          question.title === "Which type of website are you wanting?"
+      )[0]
+      .options.filter((option) => option.selected)[0].title;
 
-      setCategory(newCategory);
-    }
+    setCategory(newCategory);
   };
 
-  const sendEstimate = () => {
-    setLoading(true);
-
-    axios
-      .get(
+  const sendEstimate = async () => {
+    try {
+      setLoading(true);
+      await axios.get(
         "https://us-central1-material-ui-course.cloudfunctions.net/sendMail",
         {
           params: {
@@ -382,19 +343,18 @@ export default function Estimate() {
             users: users,
           },
         }
-      )
-      .then((res) => {
-        setLoading(false);
-        setAlert({ open: true, color: "#4BB543" });
-        setAlertMesssage("Message sent successfully!");
-        setDialogOpen(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setAlert({ open: true, color: "#FF3232" });
-        setAlertMesssage("Something went wrong! Please try again.");
-        console.error(err);
-      });
+      );
+      setAlert({ open: true, color: "#4BB543" });
+      setAlertMesssage("Message sent successfully!");
+      setDialogOpen(false);
+    } catch (error) {
+      setLoading(false);
+      setAlert({ open: true, color: "#FF3232" });
+      setAlertMesssage("Something went wrong! Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const softwareSelections = (
